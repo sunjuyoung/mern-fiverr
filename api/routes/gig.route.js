@@ -1,8 +1,17 @@
 import express from "express";
-import { Fn } from "../controller/gig.controller.js";
+import {
+  createGig,
+  deleteGig,
+  getGig,
+  getGigs,
+} from "../controller/gig.controller.js";
+import { verifyToken } from "../middleware/jwt.js";
 
 const router = express.Router();
 
-router.get("/test", Fn);
+router.post("/", verifyToken, createGig);
+router.delete("/:id", verifyToken, deleteGig);
+router.get("/single/:id", verifyToken, getGig);
+router.get("/", verifyToken, getGigs);
 
 export default router;
