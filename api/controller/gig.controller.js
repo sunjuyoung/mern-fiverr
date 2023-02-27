@@ -44,7 +44,7 @@ export const getGig = async (req, res, next) => {
 export const getGigs = async (req, res, next) => {
   const q = req.query;
   const filters = {
-    ...(q.catalog && { catalog: q.catalog }),
+    ...(q.cat && { catalog: q.cat }),
     ...((q.min || q.max) && {
       price: { ...(q.min && { $gt: q.min }), ...(q.max && { $lt: q.max }) },
     }),
@@ -52,7 +52,7 @@ export const getGigs = async (req, res, next) => {
   };
 
   try {
-    const gigs = await Gig.find(filters);
+    const gigs = await Gig.find(filters).sort({ createdAt: -1 });
     res.status(200).send(gigs);
   } catch (error) {
     next(error);
