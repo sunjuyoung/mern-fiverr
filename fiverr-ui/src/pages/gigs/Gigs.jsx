@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Gigs.scss";
 import { gigs } from "../../data";
 import GigCard from "../../components/gigCard/GigCard";
@@ -15,17 +15,16 @@ function Gigs() {
   const { search } = useLocation();
 
   const { isLoading, error, data, refetch } = useQuery({
-    queryKey: ["todos"],
+    queryKey: ["gigs"],
     queryFn: () =>
       newRequest
         .get(
-          `/gig${search}&min=${minRef.current.value}&max=${maxRef.current.value}`
+          `/gig${search}&min=${minRef.current.value}&max=${maxRef.current.value}&sort=${sort}`
         )
         .then((res) => {
           return res.data;
         }),
   });
-  console.log(data);
   const reSort = (type) => {
     setSort(type);
     setOpen(false);
@@ -33,6 +32,10 @@ function Gigs() {
   const apply = () => {
     refetch();
   };
+
+  useEffect(() => {
+    refetch();
+  }, [sort]);
 
   const a = "Liverr > Graphics & Design";
 
@@ -42,7 +45,8 @@ function Gigs() {
         <span className="breadcrumbs">{a} </span>
         <h1>AI Artists</h1>
         <p>
-          Explore the boundaries of art and technology with Liverr's AI artists
+          Explore the boundaries of art and technology with Liverr{"'"}s AI
+          artists
         </p>
         <div className="menu">
           <div className="left">
