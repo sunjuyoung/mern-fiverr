@@ -17,6 +17,7 @@ function Gig() {
       }),
   });
 
+  const userId = data?.userId;
   const {
     isLoading: isLoadingUser,
     error: errorUser,
@@ -24,12 +25,11 @@ function Gig() {
   } = useQuery({
     queryKey: [`user`],
     queryFn: () =>
-      newRequest.get(`/user/${data.userId}`).then((res) => {
+      newRequest.get(`/user/${userId}`).then((res) => {
         return res.data;
       }),
+    enabled: !!userId, //userId 없으면 실행되지 않는다.
   });
-
-  console.log(dataUser);
 
   return (
     <div className="gig">
