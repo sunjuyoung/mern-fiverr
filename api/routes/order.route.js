@@ -1,8 +1,10 @@
 import express from "express";
-import { Fn } from "../controller/order.controller.js";
+import { createOrder, getOrders } from "../controller/order.controller.js";
+import { verifyToken } from "../middleware/jwt.js";
 
 const router = express.Router();
 
-router.get("/test", Fn);
+router.post("/:gigId", verifyToken, createOrder);
+router.get("/", verifyToken, getOrders);
 
 export default router;

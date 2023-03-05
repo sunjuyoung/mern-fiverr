@@ -1,8 +1,10 @@
 import express from "express";
-import { Fn } from "../controller/message.controller.js";
+import { createMessage, getMessage } from "../controller/message.controller.js";
+import { verifyToken } from "../middleware/jwt.js";
 
 const router = express.Router();
 
-router.get("/test", Fn);
+router.post("/", verifyToken, createMessage);
+router.get("/:id", verifyToken, getMessage);
 
 export default router;
